@@ -1,34 +1,28 @@
 #!/bin/bash
 
-# URL do datoteke z imeni predmetov na GitHub repozitoriju
-GITHUB_URL="https://raw.githubusercontent.com/jsvnk/OIKT/main/mape?token=GHSAT0AAAAAACJ6JN5LR4276KIRXVHDLZ4QZKJF6LQ"
+# Postavimo URL za datoteko z imeni predmetov na GitHubu
+URL="https://raw.githubusercontent.com/jsvnk/OIKT/main/mape?token=GHSAT0AAAAAACJ6JN5LR4276KIRXVHDLZ4QZKJF6LQ"
 
 # Ime krovne mape
-KROVNA_MAPA="studij"
+root_folder="studij"
 
-# Ime mape za trenutno šolsko leto
-LETO_MAPA="2023-24"
-
-# Preverimo, ali krovna mapa že obstaja, in jo izbrišemo
-if [ -d "$KROVNA_MAPA" ]; then
-  rm -r "$KROVNA_MAPA"
+# Preverimo, ali krovna mapa obstaja in jo izbrišemo, če obstaja
+if [ -d "$root_folder" ]; then
+  rm -r "$root_folder"
 fi
 
-# Ustvarimo novo krovno mapo
-mkdir -p "$KROVNA_MAPA/$LETO_MAPA"
+# Ustvarimo krovno mapo
+mkdir "$root_folder"
 
-# Prenesemo datoteko z imeni predmetov iz GitHub repozitorija
-wget -O "$KROVNA_MAPA/$LETO_MAPA/predmeti.txt" "$GITHUB_URL"
-
-# Ustvarimo mape za OIKT
-mkdir -p "$KROVNA_MAPA/$LETO_MAPA/OIKT/vaje"
-mkdir -p "$KROVNA_MAPA/$LETO_MAPA/OIKT/predavanja"
-
-# Preberemo imena predmetov iz datoteke in ustvarimo ustrezne mape
-while IFS= read -r predmet; do
-  mkdir -p "$KROVNA_MAPA/$LETO_MAPA/$predmet/vaje"
-  mkdir -p "$KROVNA_MAPA/$LETO_MAPA/$predmet/predavanja"
-done < "$KROVNA_MAPA/$LETO_MAPA/predmeti.txt"
+# Preberemo imena predmetov iz datoteke na GitHubu
+curl -s "$URL" | while read -r subject; do
+  year="2023-24"  # Lahko spremenite na ustrezno leto
+  subject_folder="$root_folder/$year/$subject"
+  
+  # Ustvarimo mapo za predmet
+  mkdir -p "$subject_folder/vaje"
+  mkdir -p "$subject_folder/predavanja"
+done
 
 # Izpišemo drevesno strukturo novo ustvarjenih map
-tree "$KROVNA_MAPA"
+tree "$root_folder"
