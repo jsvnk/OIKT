@@ -1,1 +1,34 @@
+#!/bin/bash
 
+# URL do datoteke z imeni predmetov na GitHub repozitoriju
+GITHUB_URL="https://raw.githubusercontent.com/vaš-github-uporabniško-ime/vaš-repozitorij/vaša-datoteka.txt"
+
+# Ime krovne mape
+KROVNA_MAPA="studij"
+
+# Ime mape za trenutno šolsko leto
+LETO_MAPA="2023-24"
+
+# Preverimo, ali krovna mapa že obstaja, in jo izbrišemo
+if [ -d "$KROVNA_MAPA" ]; then
+  rm -r "$KROVNA_MAPA"
+fi
+
+# Ustvarimo novo krovno mapo
+mkdir -p "$KROVNA_MAPA/$LETO_MAPA"
+
+# Prenesemo datoteko z imeni predmetov iz GitHub repozitorija
+wget -O "$KROVNA_MAPA/$LETO_MAPA/predmeti.txt" "$GITHUB_URL"
+
+# Ustvarimo mape za OIKT
+mkdir -p "$KROVNA_MAPA/$LETO_MAPA/OIKT/vaje"
+mkdir -p "$KROVNA_MAPA/$LETO_MAPA/OIKT/predavanja"
+
+# Preberemo imena predmetov iz datoteke in ustvarimo ustrezne mape
+while IFS= read -r predmet; do
+  mkdir -p "$KROVNA_MAPA/$LETO_MAPA/$predmet/vaje"
+  mkdir -p "$KROVNA_MAPA/$LETO_MAPA/$predmet/predavanja"
+done < "$KROVNA_MAPA/$LETO_MAPA/predmeti.txt"
+
+# Izpišemo drevesno strukturo novo ustvarjenih map
+tree "$KROVNA_MAPA"
