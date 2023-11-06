@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # URL do datoteke z imeni predmetov na GitHub repozitoriju
-GITHUB_URL="https://raw.githubusercontent.com/vaš-github-uporabniško-ime/vaš-repozitorij/vaša-datoteka.txt"
+GITHUB_URL="https://raw.githubusercontent.com/jsvnk/OIKT/main/mape?token=GHSAT0AAAAAACJ6JN5LR4276KIRXVHDLZ4QZKJF6LQ"
 
 # Ime krovne mape
 KROVNA_MAPA="studij"
