@@ -1,5 +1,4 @@
-Matematika
-Fizika
-Informatika
-Angleščina
-Umetnost
+OIKT
+KIDS
+MAT
+OPDP
